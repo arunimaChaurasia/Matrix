@@ -1,0 +1,45 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.tiaa</groupId>
+  <artifactId>matrix</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>matrix</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+  <!-- https://mvnrepository.com/artifact/com.graphhopper/directions-api-client -->
+<dependency>
+    <groupId>com.graphhopper</groupId>
+    <artifactId>directions-api-client</artifactId>
+    <version>0.10.0</version>
+</dependency>
+  <!-- https://mvnrepository.com/artifact/com.graphhopper/directions-api-client-hc -->
+<dependency>
+    <groupId>com.graphhopper</groupId>
+    <artifactId>directions-api-client-hc</artifactId>
+    <version>0.10.0</version>
+    <scope>test</scope>
+</dependency>
+  <!-- https://mvnrepository.com/artifact/com.graphhopper/directions-api-client-optimized -->
+<dependency>
+    <groupId>com.graphhopper</groupId>
+    <artifactId>directions-api-client-optimized</artifactId>
+    <version>0.9.0</version>
+</dependency>
+  
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+</project>
