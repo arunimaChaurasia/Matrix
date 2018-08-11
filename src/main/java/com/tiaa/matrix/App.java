@@ -1,5 +1,6 @@
 package com.tiaa.matrix;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -15,6 +16,7 @@ import com.graphhopper.directions.api.client.model.GeocodingLocation;
 import com.graphhopper.directions.api.client.model.GeocodingPoint;
 import com.graphhopper.directions.api.client.model.GeocodingResponse;
 import com.graphhopper.directions.api.client.model.MatrixResponse;
+import com.tiaa.matrix.Prims.EDGE;
 
 
 /**
@@ -48,7 +50,7 @@ public class App
         GeocodingPoint locPoint;
         List<String> point = new ArrayList<String>();
         String val;
-        System.out.println(address);
+      //  System.out.println(address);
     
         try {
         	for(String object:address){
@@ -58,7 +60,7 @@ public class App
                   locPoint=loc0.getPoint();
                   val=locPoint.getLat() +"," + locPoint.getLng();
                   point.add(val);
-                 System.out.println(val);
+                // System.out.println(val);
         	}
            
         } catch (Exception ex) {
@@ -69,7 +71,42 @@ public class App
         String vehicle = "car"; // String | The vehicle for which the route should be calculated. Other vehicles are foot, bike, mtb, racingbike, motorcycle, small_truck, bus and truck. See here for the details.
         try {
             MatrixResponse result = apiInstance.matrixGet(key, point, null, null, outArray, vehicle);
-            System.out.println(result);
+            System.out.println(result.getDistances());
+            EDGE[] edges = new EDGE[(result.getDistances().size())*(result.getDistances().size())];
+            int k= 0;
+            for (int i=0;i<result.getDistances().size();i++){
+            	 	for (int j=0; j< result.getDistances().get(i).size();j++){
+//            		if((result.getDistances().get(i).get(j)).compareTo(new BigDecimal(0))!=0)
+//            		{
+            		edges[k]=new EDGE(i,j,result.getWeights().get(i).get(j));
+            		System.out.print(result.getWeights().get(i).get(j)+"| | ");
+            		k++;
+            		//}
+            	}
+            	 	System.out.print("\n ");
+                    
+            }
+            
+            ArrayList<ArrayList<EDGE>> graph = new ArrayList<ArrayList<EDGE>>();
+            		graph=Prims.createGraph(edges);
+            ArrayList<EDGE> mst =Prims.prims(graph);
+         
+            System.out.println("Cab Routes: ");
+            int i=0;
+            int u=1;
+            for(EDGE e:mst){
+            	if(i%4==0)
+            	{
+            		System.out.println("--- Cab "+u+" ---");
+            		u++;
+            	}
+            	i++;
+         
+            	String s1 = address.get(e.from);
+            	String s2 = address.get(e.to);
+                System.out.println(s1+" - "+s2+" : "+e.weight+" M");
+         
+            } 
         } catch (ApiException e) {
             System.err.println("Exception when calling MatrixApi#matrixGet");
             e.printStackTrace();
